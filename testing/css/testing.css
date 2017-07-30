@@ -1,0 +1,33 @@
+html
+{
+	font-family: 'Montserrat', sans-serif;
+}
+
+body
+{
+	background:#546E7A;
+	color:#FCFCFC;
+}
+
+table
+{
+	width:90%;
+	margin:auto;
+	text-align:center;
+}
+
+tr
+{
+	border:2px solid #FCFCFC;
+}
+
+td
+{
+	width:25%;
+	border-right:2px solid #FCFCFC;
+}
+
+td:last-of-type
+{
+	border-right:none;
+}

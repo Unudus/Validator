@@ -26,7 +26,7 @@ class ValidateURL extends BaseValidate
     {
         if ( $blnAutoAddProtocol && stripos( $strURL, 'http://' ) !== 0 )
         {
-            echo "correcting ".$strURL." to http://".$strURL.'<br />';
+            //echo "correcting ".$strURL." to http://".$strURL.'<br />';
             $strURL = "http://".$strURL;
         }
         parent::__construct( $strURL );

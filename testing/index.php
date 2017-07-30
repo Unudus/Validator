@@ -4,6 +4,8 @@
     
     $arrTests = [
         [ ValidateEmail::class, "example@email.com" ],
+        [ ValidateEmail::class, "exampleemail.com" ],
+        [ ValidateEmail::class, "ecom" ],
         [ ValidateEmail::class, "" ]
     ];
     
@@ -13,12 +15,19 @@
         $objTest = new $arrTest[0]( $arrTest[1] );
         $blnResult = $objTest->validate();
         
+        $arrExceptions = $objTest->getExceptions();
+        $strExceptions = '';
+        foreach( $arrExceptions as $strException )
+        {
+            $strExceptions .= $strException."<br /><br />";
+        }
+        
         $strRow = "
             <tr>
                 <td>".$arrTest[0]::TYPE_LABEL."</td>
                 <td>".htmlspecialchars( $arrTest[1], ENT_QUOTES )."</td>
                 <td>".json_encode( $blnResult )."</td>
-                <td>".json_encode( $objTest->getExceptions() )."</td>
+                <td>".$strExceptions."</td>
             </tr>
         ";
         

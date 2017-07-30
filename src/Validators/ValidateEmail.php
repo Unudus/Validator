@@ -2,7 +2,11 @@
 namespace Unudus\Validator\Validators;
 
 /**
- *
+ * A Validation Class for email addresses.
+ * Primary validation uses filter_var() but will also feedback if;
+ *      value isn't a string
+ *      value is too short
+ *      value lacks the @ delimitor between local-part and domain
  * @author Kyle Truswell
  *        
  */
@@ -17,21 +21,24 @@ class ValidateEmail extends BaseValidate
     const EXCEPTION_FAILS_RFC   = "Value passed did not pass the server's email standards check. See RFC 822 for rules followed";
     
     /**
+     * Create a new Email validator.
+     * @param $strEmail The value you wish to validate as an email. Should be a string
      */
     public function __construct( $strEmail )
     {
+        // Note : while the base class's contructor would be fine, by overriding like this the caller gets a more descriptive PHPDoc comment & a parameter more in line with expected data
         $this->mxdValue = $strEmail;
     }
 
     /**
-     * 
-     *
-     *
+     * Validates if the value is plausably an email address
+     *  
+     * @return bool Returns true if the value could be an email, otherwise returns false.
      */
     public function validate():bool
     {
         $blnReturn = true;
-        if ( !isset( $this->mxdValue ) || !is_string( $this->mxdValue ) )
+        if ( !$this->isValueString() )
         {
             $this->arrExceptions[] = static::EXCEPTION_INCORRECT_INPUT_TYPE;
             $blnReturn = false;
@@ -39,6 +46,7 @@ class ValidateEmail extends BaseValidate
         else
         {
             // note: strlen() does have issues with some international encodings, but shouldn't be an issue with UTF-8
+            // The length of 5 is based on a@b.c being potentially valid email
             if ( strlen( $this->mxdValue ) < 5 )
             {
                 $this->arrExceptions[] = static::EXCEPTION_TOO_SHORT;

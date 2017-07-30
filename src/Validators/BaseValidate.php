@@ -25,21 +25,32 @@ abstract class BaseValidate
     // the test output code cleaner.
     const EXCEPTION_INCORRECT_INPUT_TYPE = "Bad Value Passed"; // an exception that all validators will have to handle
     
-    /**
-     */
     public function __construct( $mxdValue )
     {
         $this->mxdValue = $mxdValue;
     }
 
+    public function setValue( $mxdValue )
+    {
+        $this->mxdValue = $mxdValue;
+    }
+    
     public function getExceptions()
     {
         // Just a simpler getter for now.
         return $this->arrExceptions;
     }
     
-    /**
-     *
-     */
     abstract public function validate():bool;
+    
+    // note : These just help keep the actual validate() implementations clear and easy to read
+    protected function isValueString():bool
+    {
+        return ( isset( $this->mxdValue ) && is_string( $this->mxdValue ) );
+    }
+    
+    protected function isValueNumber():bool
+    {
+        return ( isset( $this->mxdValue ) && is_numeric( $this->mxdValue ) );
+    }
 }

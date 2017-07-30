@@ -1,18 +1,37 @@
 <?php 
     require_once __DIR__.'/../vendor/autoload.php'; // assumes 'vendor/' is parallel to the test folder.
     use Unudus\Validator\Validators\ValidateEmail;
+use Unudus\Validator\Validators\ValidateStringLength;
     
     $arrTests = [
         [ ValidateEmail::class, "example@email.com" ],
-        [ ValidateEmail::class, "exampleemail.com" ],
-        [ ValidateEmail::class, "ecom" ],
-        [ ValidateEmail::class, "" ]
+        //[ ValidateEmail::class, "exampleemail.com" ],
+        //[ ValidateEmail::class, "ecom" ],
+        //[ ValidateEmail::class, "" ],
+        [ ValidateStringLength::class, "Banana", 10 ],
+        [ ValidateStringLength::class, 3.5, 10 ],
+        [ ValidateStringLength::class, "Banana", 5 ],
+        [ ValidateStringLength::class, "Lorem", 5 ],
+        [ ValidateStringLength::class, "Foo", 10, 4 ]
     ];
     
     $strRows = '';
     foreach ( $arrTests as $arrTest )
     {
-        $objTest = new $arrTest[0]( $arrTest[1] );
+        // Note : this is a little clumsy. passing an assoc-array as the 2nd constructor parameter would clean it up, but hurt end user friendliness
+        // @todo : there are many dynamic class instancing approaches, check if any convert arrays in 1..n parameters. 
+        if ( !isset( $arrTest[2] ) )
+        {
+            $objTest = new $arrTest[0]( $arrTest[1] );
+        }
+        else if ( !isset( $arrTest[3] ) )
+        {
+            $objTest = new $arrTest[0]( $arrTest[1], $arrTest[2] );
+        }
+        else
+        {
+            $objTest = new $arrTest[0]( $arrTest[1], $arrTest[2], $arrTest[3] );
+        }
         $blnResult = $objTest->validate();
         
         $arrExceptions = $objTest->getExceptions();

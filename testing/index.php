@@ -3,6 +3,7 @@
     use Unudus\Validator\Validators\ValidateEmail;
 use Unudus\Validator\Validators\ValidateStringLength;
 use Unudus\Validator\Validators\ValidateURL;
+use Unudus\Validator\Validators\ValidateCountryCode;
     
     $arrTests = [
         [ ValidateEmail::class, "example@email.com" ],
@@ -14,12 +15,16 @@ use Unudus\Validator\Validators\ValidateURL;
         //[ ValidateStringLength::class, "Banana", 5 ],
         //[ ValidateStringLength::class, "Lorem", 5 ],
         //[ ValidateStringLength::class, "Foo", 10, 4 ],
-        [ ValidateURL::class, "http://www.google.com" ],
-        [ ValidateURL::class, "www.google.com/ncr", true ],
-        [ ValidateURL::class, "bing.co.uk" ],
-        [ ValidateURL::class, "www.google" ],
-        [ ValidateURL::class, "www.google", false ],
-        [ ValidateURL::class, "lorem" ]
+        //[ ValidateURL::class, "http://www.google.com" ],
+        //[ ValidateURL::class, "www.google.com/ncr", true ],
+        //[ ValidateURL::class, "bing.co.uk" ],
+        //[ ValidateURL::class, "www.google" ],
+        //[ ValidateURL::class, "www.google", false ],
+        //[ ValidateURL::class, "lorem" ],
+        [ ValidateCountryCode::class, "lorem" ],
+        [ ValidateCountryCode::class, "l" ],
+        [ ValidateCountryCode::class, 3 ],
+        [ ValidateCountryCode::class, "GB" ],
     ];
     
     $strRows = '';

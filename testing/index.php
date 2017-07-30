@@ -4,6 +4,7 @@
 use Unudus\Validator\Validators\ValidateStringLength;
 use Unudus\Validator\Validators\ValidateURL;
 use Unudus\Validator\Validators\ValidateCountryCode;
+use Unudus\Validator\Validators\ValidatePasswordStrength;
     
     $arrTests = [
         [ ValidateEmail::class, "example@email.com" ],
@@ -21,10 +22,17 @@ use Unudus\Validator\Validators\ValidateCountryCode;
         //[ ValidateURL::class, "www.google" ],
         //[ ValidateURL::class, "www.google", false ],
         //[ ValidateURL::class, "lorem" ],
-        [ ValidateCountryCode::class, "lorem" ],
-        [ ValidateCountryCode::class, "l" ],
-        [ ValidateCountryCode::class, 3 ],
-        [ ValidateCountryCode::class, "GB" ],
+        //[ ValidateCountryCode::class, "lorem" ],
+        //[ ValidateCountryCode::class, "l" ],
+        //[ ValidateCountryCode::class, 3 ],
+        //[ ValidateCountryCode::class, "GB" ],
+        [ ValidatePasswordStrength::class, "lorem" ],
+        [ ValidatePasswordStrength::class, "IPSOM" ],
+        [ ValidatePasswordStrength::class, "Lorem" ],
+        [ ValidatePasswordStrength::class, "loremIpsom" ],
+        [ ValidatePasswordStrength::class, 5 ],
+        [ ValidatePasswordStrength::class, "lorem56789" ],
+        [ ValidatePasswordStrength::class, "loremIpsom1!" ]
     ];
     
     $strRows = '';

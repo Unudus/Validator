@@ -2,24 +2,35 @@
     require_once __DIR__.'/../vendor/autoload.php'; // assumes 'vendor/' is parallel to the test folder.
     use Unudus\Validator\Validators\ValidateEmail;
 use Unudus\Validator\Validators\ValidateStringLength;
+use Unudus\Validator\Validators\ValidateURL;
     
     $arrTests = [
         [ ValidateEmail::class, "example@email.com" ],
         //[ ValidateEmail::class, "exampleemail.com" ],
         //[ ValidateEmail::class, "ecom" ],
         //[ ValidateEmail::class, "" ],
-        [ ValidateStringLength::class, "Banana", 10 ],
-        [ ValidateStringLength::class, 3.5, 10 ],
-        [ ValidateStringLength::class, "Banana", 5 ],
-        [ ValidateStringLength::class, "Lorem", 5 ],
-        [ ValidateStringLength::class, "Foo", 10, 4 ]
+        //[ ValidateStringLength::class, "Banana", 10 ],
+        //[ ValidateStringLength::class, 3.5, 10 ],
+        //[ ValidateStringLength::class, "Banana", 5 ],
+        //[ ValidateStringLength::class, "Lorem", 5 ],
+        //[ ValidateStringLength::class, "Foo", 10, 4 ],
+        [ ValidateURL::class, "http://www.google.com" ],
+        [ ValidateURL::class, "www.google.com/ncr", true ],
+        [ ValidateURL::class, "bing.co.uk" ],
+        [ ValidateURL::class, "www.google" ],
+        [ ValidateURL::class, "www.google", false ],
+        [ ValidateURL::class, "lorem" ]
     ];
     
     $strRows = '';
     foreach ( $arrTests as $arrTest )
     {
         // Note : this is a little clumsy. passing an assoc-array as the 2nd constructor parameter would clean it up, but hurt end user friendliness
-        // @todo : there are many dynamic class instancing approaches, check if any convert arrays in 1..n parameters. 
+        // @todo : there are many dynamic class instancing approaches, check if any convert arrays in 1..n parameters.
+        
+        $arrJustParms = $arrTest;
+        array_shift( $arrJustParms );
+        array_shift( $arrJustParms );
         if ( !isset( $arrTest[2] ) )
         {
             $objTest = new $arrTest[0]( $arrTest[1] );
@@ -41,10 +52,17 @@ use Unudus\Validator\Validators\ValidateStringLength;
             $strExceptions .= $strException."<br /><br />";
         }
         
+        $strParams = '';
+        foreach( $arrJustParms as $mxdParam )
+        {
+            $strParams .= json_encode( $mxdParam ).'<br /><br />';
+        }
+        
         $strRow = "
             <tr>
                 <td>".$arrTest[0]::TYPE_LABEL."</td>
                 <td>".htmlspecialchars( $arrTest[1], ENT_QUOTES )."</td>
+                <td>".$strParams."</td>
                 <td>".json_encode( $blnResult )."</td>
                 <td>".$strExceptions."</td>
             </tr>
@@ -73,6 +91,7 @@ use Unudus\Validator\Validators\ValidateStringLength;
 				<tr>
 					<td>Type</td>
 					<td>Test data</td>
+					<td>Extra Parameters</td>
 					<td>Validates</td>
 					<td>Exceptions Raised</td>
 				</tr>

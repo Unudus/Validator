@@ -59,7 +59,7 @@ class ValidateEmail extends BaseValidate
                 $blnReturn = false;
             }
             
-            if ( !filter_var( $this->mxdValue, FILTER_VALIDATE_EMAIL ) )
+            if ( filter_var( $this->mxdValue, FILTER_VALIDATE_EMAIL ) === false )
             {
                 $this->arrExceptions[] = static::EXCEPTION_FAILS_RFC;
                 $blnReturn = false;

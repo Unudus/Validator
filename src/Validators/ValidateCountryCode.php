@@ -285,6 +285,7 @@ class ValidateCountryCode extends BaseValidate
      */
     public function validate():bool
     {
+        $this->arrExceptions = [];
         $blnReturn = true;
         if ( !$this->isValueString() )
         {
